@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const pool = require("../db");
 
-// Helper para limpiar caracteres
 const corregirTexto = (texto) => {
   if (!texto) return "";
   return texto
@@ -14,7 +13,6 @@ const corregirTexto = (texto) => {
     .replace(/Ã±/g, "ñ");
 };
 
-// Helper para formatear estado
 const formatearEstado = (estado) => {
   if (estado === "en_espera") return "En espera";
   if (estado === "atendiendo") return "Atendiendo";
@@ -27,18 +25,6 @@ const formatearEstado = (estado) => {
 router.get("/", async (req, res) => {
   res.setHeader("Content-Type", "application/json; charset=utf-8");
   try {
-    // Asegurar existencia de la tabla
-    await pool.query(`
-      CREATE TABLE IF NOT EXISTS turnos (
-        id SERIAL PRIMARY KEY,
-        servicio_id INT,
-        codigo VARCHAR(20),
-        estado VARCHAR(20) DEFAULT 'en_espera',
-        tiempo_espera_estimado NUMERIC DEFAULT 3.00,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-      );
-    `);
-
     const query = `
       SELECT t.id, t.codigo, t.estado, t.tiempo_espera_estimado, s.nombre AS servicio_nombre
       FROM turnos t
@@ -60,16 +46,36 @@ router.get("/", async (req, res) => {
   }
 });
 
-// POST: Crear turno
+// POST: Crear nuevo turno
 router.post("/", async (req, res) => {
   res.setHeader("Content-Type", "application/json; charset=utf-8");
   const { servicio_id } = req.body;
 
   try {
+    // 1. Forzar la recreación limpia de la tabla para reparar las columnas faltantes
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS turnos (
+        id SERIAL PRIMARY KEY,
+        servicio_id INT,
+        codigo VARCHAR(20),
+        estado VARCHAR(20) DEFAULT 'en_espera',
+        tiempo_espera_estimado NUMERIC DEFAULT 3.00,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    // Añadir columnas por si la tabla vieja existía sin alguna de ellas
+    await pool.query(`ALTER TABLE turnos ADD COLUMN IF NOT EXISTS servicio_id INT;`);
+    await pool.query(`ALTER TABLE turnos ADD COLUMN IF NOT EXISTS codigo VARCHAR(20);`);
+    await pool.query(`ALTER TABLE turnos ADD COLUMN IF NOT EXISTS estado VARCHAR(20) DEFAULT 'en_espera';`);
+    await pool.query(`ALTER TABLE turnos ADD COLUMN IF NOT EXISTS tiempo_espera_estimado NUMERIC DEFAULT 3.00;`);
+
+    // 2. Generar código
     const countQuery = await pool.query("SELECT COUNT(*) FROM turnos");
     const count = parseInt(countQuery.rows[0].count) + 1;
     const codigo = `T-${String(count).padStart(3, "0")}`;
 
+    // 3. Insertar turno
     const insertQuery = `
       INSERT INTO turnos (servicio_id, codigo, estado, tiempo_espera_estimado)
       VALUES ($1, $2, 'en_espera', 3.00)
@@ -77,6 +83,7 @@ router.post("/", async (req, res) => {
     `;
     const result = await pool.query(insertQuery, [servicio_id || 1, codigo]);
 
+    // 4. Obtener nombre del servicio
     const servQuery = await pool.query("SELECT nombre FROM servicios WHERE id = $1", [servicio_id || 1]);
     const servicioNombre = servQuery.rows[0] ? servQuery.rows[0].nombre : "Servicio";
 
