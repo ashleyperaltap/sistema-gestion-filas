@@ -1,0 +1,3 @@
+postgresql://gestion_filas_db_user:L2WcdGfS4vwy6fpePBcx6wCkJsQHgKTx@dpg-d9t5l7afngtc73cpsi30-a.ohio-postgres.render.com/gestion_filas_db
+
+postgresql://gestion_filas_db_user:L2WcdGfS4vwy6fpePBcx6wCkJsQHgKTx@dpg-d9t5l7afngtc73cpsi30-a/gestion_filas_db
