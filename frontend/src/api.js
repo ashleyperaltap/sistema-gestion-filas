@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 // Todas las llamadas al backend pasan por aquí.
 // En desarrollo local usa http://localhost:4000/api por defecto.
 // En producción (Render, Vercel, Netlify, etc.) se define la variable de entorno
@@ -13,42 +12,39 @@ async function manejarRespuesta(respuesta) {
   }
   return datos;
 }
-=======
-// Definición directa de la URL de Render
-const API_URL = "https://sistema-gestion-backend-ap.onrender.com";
->>>>>>> 2f5cb302dd16725b73fc37e00c7b34be75feebae
 
 export async function obtenerServicios() {
-  try {
-    const res = await fetch(`${API_URL}/api/servicios`);
-    if (!res.ok) throw new Error("Error al obtener servicios");
-    return await res.json();
-  } catch (err) {
-    console.error(err);
-    return [{ id: 1, nombre: "Caja de atención" }];
-  }
+  const respuesta = await fetch(`${API_URL}/servicios`);
+  return manejarRespuesta(respuesta);
 }
 
 export async function crearTurno(idServicio) {
-  const res = await fetch(`${API_URL}/api/turnos`, {
+  const respuesta = await fetch(`${API_URL}/turnos`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ servicio_id: idServicio, id_servicio: idServicio }),
+    body: JSON.stringify({ id_servicio: idServicio }),
   });
-
-  if (!res.ok) {
-    throw new Error(`Error en el servidor (${res.status})`);
-  }
-
-  return await res.json();
+  return manejarRespuesta(respuesta);
 }
 
 export async function consultarTurno(idTurno) {
-  try {
-    const res = await fetch(`${API_URL}/api/turnos/${idTurno}`);
-    if (!res.ok) return null;
-    return await res.json();
-  } catch (err) {
-    return null;
-  }
+  const respuesta = await fetch(`${API_URL}/turnos/${idTurno}`);
+  return manejarRespuesta(respuesta);
+}
+
+export async function listarTurnosEnEspera() {
+  const respuesta = await fetch(`${API_URL}/turnos?estado=en_espera`);
+  return manejarRespuesta(respuesta);
+}
+
+export async function atenderTurno(idTurno) {
+  const respuesta = await fetch(`${API_URL}/turnos/${idTurno}/atender`, {
+    method: "PUT",
+  });
+  return manejarRespuesta(respuesta);
+}
+
+export async function obtenerResumen() {
+  const respuesta = await fetch(`${API_URL}/turnos/reportes/resumen`);
+  return manejarRespuesta(respuesta);
 }
