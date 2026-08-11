@@ -7,4 +7,9 @@ const pool = new Pool({
   }
 });
 
+// Registrar error en consola para debugging
+pool.on("error", (err) => {
+  console.error("Error inesperado en el cliente de PG:", err);
+});
+
 module.exports = pool;
