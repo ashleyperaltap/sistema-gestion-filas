@@ -9,16 +9,19 @@ app.use(express.json());
 const serviciosRoutes = require("./routes/servicios");
 const turnosRoutes = require("./routes/turnos");
 
-// Registrar rutas de la API
+// Rutas con /api
 app.use("/api/servicios", serviciosRoutes);
 app.use("/api/turnos", turnosRoutes);
 
-// Ruta base de prueba
+// Rutas directas (por si Vercel las llama sin /api)
+app.use("/servicios", serviciosRoutes);
+app.use("/turnos", turnosRoutes);
+
 app.get("/", (req, res) => {
-  res.send("Backend funcionando correctamente");
+  res.send("Backend activo");
 });
 
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
-  console.log(`Servidor escuchando en el puerto ${PORT}`);
+  console.log(`Servidor escuchando en puerto ${PORT}`);
 });
