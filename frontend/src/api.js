@@ -1,6 +1,6 @@
 // Todas las llamadas al backend pasan por aquí.
 // Si cambias el puerto del backend, solo hay que actualizar esta constante.
-const API_URL = "http://localhost:4000/api";
+const API_URL = import.meta.env.VITE_API_URL || "https://sistema-gestion-backend-kd2n.onrender.com/api";
 
 async function manejarRespuesta(respuesta) {
   const datos = await respuesta.json();
