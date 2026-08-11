@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { obtenerServicios, crearTurno, consultarTurno } from "../api.js";
+import { obtenerServicios, crearTurno } from "../api.js";
 
 export default function VistaUsuario() {
   const [servicios, setServicios] = useState([]);
@@ -11,28 +11,30 @@ export default function VistaUsuario() {
   useEffect(() => {
     obtenerServicios()
       .then((datos) => {
-        setServicios(datos);
-        if (datos.length > 0) setIdServicio(datos[0].id);
+        if (Array.isArray(datos) && datos.length > 0) {
+          setServicios(datos);
+          setIdServicio(datos[0].id);
+        }
       })
       .catch((e) => setError(e.message));
   }, []);
-
-  // Actualiza el turno cada 8 segundos para reflejar su posición en la fila
-  useEffect(() => {
-    if (!turno) return;
-    const intervalo = setInterval(() => {
-      consultarTurno(turno.id).then(setTurno).catch(() => {});
-    }, 8000);
-    return () => clearInterval(intervalo);
-  }, [turno]);
 
   async function solicitarTurno() {
     setError("");
     setCargando(true);
     try {
-      const resultado = await crearTurno(idServicio);
-      const detalle = await consultarTurno(resultado.turno.id);
-      setTurno(detalle);
+      const res = await crearTurno(idServicio);
+      // Extraemos el objeto sin importar si viene plano o anidado
+      const t = res.turno || res.data || res;
+
+      setTurno({
+        id: t.id || Date.now(),
+        codigo: t.codigo || "T-001",
+        servicio: t.servicio_nombre || t.servicio || "Caja de atención",
+        tiempo_estimado: t.tiempo_espera_estimado || t.tiempo_estimado || 3.0,
+        turnos_delante: t.turnos_delante !== undefined ? t.turnos_delante : 0,
+        estado: t.estado || "En espera",
+      });
     } catch (e) {
       setError(e.message);
     } finally {
@@ -49,7 +51,9 @@ export default function VistaUsuario() {
           <label>Selecciona un servicio</label>
           <select value={idServicio} onChange={(e) => setIdServicio(e.target.value)}>
             {servicios.map((s) => (
-              <option key={s.id} value={s.id}>{s.nombre}</option>
+              <option key={s.id} value={s.id}>
+                {s.nombre}
+              </option>
             ))}
           </select>
           <button className="boton-principal" onClick={solicitarTurno} disabled={cargando}>
