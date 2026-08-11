@@ -1,13 +1,14 @@
 const { Pool } = require("pg");
-require("dotenv").config();
 
-// Pool de conexiones a PostgreSQL. Reutiliza las variables del archivo .env
 const pool = new Pool({
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  database: process.env.DB_NAME,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
+  connectionString: process.env.DATABASE_URL || "postgresql://gestion_filas_db_user:L2WcdGfS4vwy6fpePBcx6wCkJsQHgKTx@dpg-d9t5l7afngtc73cpsi30-a/gestion_filas_db",
+  ssl: {
+    rejectUnauthorized: false
+  }
+});
+
+pool.on("error", (err) => {
+  console.error("Error inesperado en el cliente de PG:", err);
 });
 
 module.exports = pool;

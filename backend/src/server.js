@@ -1,26 +1,27 @@
 const express = require("express");
 const cors = require("cors");
-require("dotenv").config();
-
-const serviciosRoutes = require("./routes/servicios");
-const turnosRoutes = require("./routes/turnos");
-const usuariosRoutes = require("./routes/usuarios");
-
 const app = express();
+
 app.use(cors());
 app.use(express.json());
 
-// Rutas de la API
+// Importar rutas
+const serviciosRoutes = require("./routes/servicios");
+const turnosRoutes = require("./routes/turnos");
+
+// Rutas con /api
 app.use("/api/servicios", serviciosRoutes);
 app.use("/api/turnos", turnosRoutes);
-app.use("/api/usuarios", usuariosRoutes);
 
-// Ruta de prueba para verificar que el servidor está vivo
-app.get("/api/salud", (req, res) => {
-  res.json({ estado: "ok", mensaje: "Backend funcionando correctamente" });
+// Rutas directas (por si Vercel las llama sin /api)
+app.use("/servicios", serviciosRoutes);
+app.use("/turnos", turnosRoutes);
+
+app.get("/", (req, res) => {
+  res.send("Backend activo");
 });
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
-  console.log(`Backend escuchando en http://localhost:${PORT}`);
+  console.log(`Servidor escuchando en puerto ${PORT}`);
 });
