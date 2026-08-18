@@ -1,10 +1,10 @@
 :root {
-  --verde: #1f6f3f;
-  --verde-oscuro: #16532f;
-  --fondo: #f4f6f4;
+  --verde: #2563eb;
+  --verde-oscuro: #1d4ed8;
+  --fondo: #f4f6f9;
   --texto: #1c1c1c;
   --gris: #6b7280;
-  --borde: #dfe5df;
+  --borde: #dfe3ea;
 }
 
 * {
@@ -112,7 +112,7 @@ select {
 }
 
 .destacado {
-  background: #eaf3ec;
+  background: #e8f0fe;
   border-left: 4px solid var(--verde);
   padding: 10px 14px;
   border-radius: 6px;
@@ -129,7 +129,7 @@ select {
 .indicador {
   flex: 1;
   min-width: 140px;
-  background: #eaf3ec;
+  background: #e8f0fe;
   border-radius: 10px;
   padding: 16px;
   text-align: center;
