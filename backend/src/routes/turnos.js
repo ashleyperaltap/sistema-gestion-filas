@@ -163,7 +163,7 @@ router.put("/:id/atender", async (req, res) => {
   } catch (error) {
     await cliente.query("ROLLBACK");
     console.error(error);
-    res.status(500).json({ error: "Error al atender el turno" });
+    res.status(500).json({ error: "Error al atender el turno: " + error.message });
   } finally {
     cliente.release();
   }
