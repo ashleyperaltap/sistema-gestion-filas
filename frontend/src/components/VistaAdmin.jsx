@@ -71,7 +71,11 @@ export default function VistaAdmin() {
               <td>{t.codigo}</td>
               <td>{t.servicio}</td>
               <td>{t.tiempo_estimado} min</td>
-              <td>{t.estado}</td>
+              <td>
+                <span className={`estado-pill ${t.estado === "atendido" ? "atendido" : ""}`}>
+                  {t.estado === "en_espera" ? "En espera" : t.estado}
+                </span>
+              </td>
               <td>
                 <button onClick={() => marcarAtendido(t.id)}>Atender</button>
               </td>
