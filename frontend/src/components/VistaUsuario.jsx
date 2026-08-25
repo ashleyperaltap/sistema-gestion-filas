@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { obtenerServicios, crearTurno, consultarTurno } from "../api.js";
 
-const ICONOS = {
-  "Caja de atención": "💳",
-  "Información": "ℹ️",
-  "Servicio al cliente": "🎧",
-};
+
 
 export default function VistaUsuario() {
   const [servicios, setServicios] = useState([]);
@@ -54,13 +50,12 @@ export default function VistaUsuario() {
           <label>Selecciona un servicio</label>
           <div className="servicios-grid">
             {servicios.map((s) => (
-              <button
+                            <button
                 type="button"
                 key={s.id}
                 className={`servicio-card ${String(idServicio) === String(s.id) ? "seleccionado" : ""}`}
                 onClick={() => setIdServicio(s.id)}
               >
-                <span className="servicio-icono">{ICONOS[s.nombre] || "🗂️"}</span>
                 <span className="servicio-nombre">{s.nombre}</span>
                 {s.descripcion && <span className="servicio-descripcion">{s.descripcion}</span>}
               </button>

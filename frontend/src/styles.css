@@ -282,8 +282,8 @@ select {
   flex-direction: column;
   align-items: flex-start;
   gap: 6px;
-  background: #fbfcfe;
-  border: 1.5px solid var(--borde);
+  background: linear-gradient(135deg, #dbe9ff, #eaf1ff);
+  border: 1.5px solid #c7dbff;
   border-radius: 14px;
   padding: 16px;
   cursor: pointer;
@@ -299,8 +299,13 @@ select {
 
 .servicio-card.seleccionado {
   border-color: var(--azul);
-  background: #eff4ff;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+  background: linear-gradient(135deg, #60a5fa, #2563eb);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+.servicio-card.seleccionado .servicio-nombre,
+.servicio-card.seleccionado .servicio-descripcion {
+  color: white;
 }
 
 .servicio-icono {
