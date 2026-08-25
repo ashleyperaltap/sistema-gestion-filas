@@ -9,8 +9,10 @@
 
   --teal-1: #0ea5b7;
   --teal-2: #06818f;
-    --indigo-1: #60a5fa;
-  --indigo-2: #2563eb;
+--indigo-1: #a78bfa;
+  --indigo-2: #7c3aed;
+  --destacado-1: #60a5fa;
+  --destacado-2: #2563eb;
 --amber-1: #ef4444;
   --amber-2: #b91c1c;
 }
@@ -155,7 +157,7 @@ select {
 }
 
 .destacado {
-  background: linear-gradient(135deg, var(--indigo-1), var(--indigo-2));
+  background: linear-gradient(135deg, var(--destacado-1), var(--destacado-2));
   color: white;
   border-left: none;
   padding: 14px 16px;
