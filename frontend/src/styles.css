@@ -11,8 +11,8 @@
   --teal-2: #06818f;
   --indigo-1: #6366f1;
   --indigo-2: #4338ca;
-  --amber-1: #f59e0b;
-  --amber-2: #d97706;
+--amber-1: #ef4444;
+  --amber-2: #b91c1c;
 }
 
 * {
@@ -49,31 +49,35 @@ body {
 
 .nav {
   display: inline-flex;
-  gap: 4px;
-  background: #ffffff;
-  border: 1px solid var(--borde);
-  padding: 4px;
-  border-radius: 12px;
+  gap: 6px;
+  background: #eef1f8;
+  border: none;
+  padding: 6px;
+  border-radius: 14px;
   width: fit-content;
-  box-shadow: var(--card-shadow);
 }
 
 .nav button {
-  padding: 9px 18px;
+  padding: 10px 22px;
   border: none;
   background: transparent;
-  border-radius: 9px;
+  border-radius: 10px;
   cursor: pointer;
   font-size: 0.92rem;
   font-weight: 600;
   color: var(--gris);
   font-family: inherit;
-  transition: background 0.15s ease, color 0.15s ease;
+  transition: all 0.2s ease;
+}
+
+.nav button:hover:not(.activo) {
+  color: var(--texto);
 }
 
 .nav button.activo {
   background: var(--azul);
   color: white;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
 }
 
 .tarjeta {
@@ -227,16 +231,16 @@ select {
 
 .estado-pill {
   display: inline-block;
-  padding: 4px 11px;
-  border-radius: 999px;
-  font-size: 0.78rem;
-  font-weight: 700;
-  background: #fef3c7;
+  padding: 0;
+  border-radius: 0;
+  font-size: 0.92rem;
+  font-weight: 600;
+  background: transparent;
   color: #92400e;
 }
 
 .estado-pill.atendido {
-  background: #dcfce7;
+  background: transparent;
   color: #166534;
 }
 
