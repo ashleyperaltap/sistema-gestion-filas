@@ -9,8 +9,8 @@
 
   --teal-1: #0ea5b7;
   --teal-2: #06818f;
-   --indigo-1: #a78bfa;
-  --indigo-2: #7c3aed;
+    --indigo-1: #60a5fa;
+  --indigo-2: #2563eb;
 --amber-1: #ef4444;
   --amber-2: #b91c1c;
 }
@@ -236,7 +236,7 @@ select {
   font-size: 0.92rem;
   font-weight: 600;
   background: transparent;
-  color: #92400e;
+  color: var(--texto);
 }
 
 .estado-pill.atendido {

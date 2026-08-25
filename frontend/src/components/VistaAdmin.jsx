@@ -46,7 +46,7 @@ export default function VistaAdmin() {
           </div>
           <div className="indicador">
             <span className="numero">{resumen.tiempo_promedio_estimado.toFixed(1)} min</span>
-            <span>Tiempo promedio estimado (IA)</span>
+                        <span>Tiempo promedio estimado</span>
           </div>
           <div className="indicador">
             <span className="numero">{resumen.turnos_atendidos_hoy}</span>
