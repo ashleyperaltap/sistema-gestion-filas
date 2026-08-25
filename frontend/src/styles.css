@@ -267,3 +267,54 @@ select {
   margin-top: 14px;
   font-weight: 600;
 }
+
+
+/* Selector de servicio en tarjetas (Vista Usuario) */
+.servicios-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.servicio-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  background: #fbfcfe;
+  border: 1.5px solid var(--borde);
+  border-radius: 14px;
+  padding: 16px;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  transition: border-color 0.15s ease, background 0.15s ease, transform 0.1s ease;
+}
+
+.servicio-card:hover {
+  border-color: var(--azul);
+  transform: translateY(-1px);
+}
+
+.servicio-card.seleccionado {
+  border-color: var(--azul);
+  background: #eff4ff;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.servicio-icono {
+  font-size: 1.6rem;
+}
+
+.servicio-nombre {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--texto);
+}
+
+.servicio-descripcion {
+  font-size: 0.78rem;
+  color: var(--gris);
+  line-height: 1.3;
+}

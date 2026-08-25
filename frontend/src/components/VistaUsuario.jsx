@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { obtenerServicios, crearTurno, consultarTurno } from "../api.js";
 
+const ICONOS = {
+  "Caja de atención": "💳",
+  "Información": "ℹ️",
+  "Servicio al cliente": "🎧",
+};
+
 export default function VistaUsuario() {
   const [servicios, setServicios] = useState([]);
   const [idServicio, setIdServicio] = useState("");
@@ -46,12 +52,21 @@ export default function VistaUsuario() {
       {!turno && (
         <>
           <label>Selecciona un servicio</label>
-          <select value={idServicio} onChange={(e) => setIdServicio(e.target.value)}>
+          <div className="servicios-grid">
             {servicios.map((s) => (
-              <option key={s.id} value={s.id}>{s.nombre}</option>
+              <button
+                type="button"
+                key={s.id}
+                className={`servicio-card ${String(idServicio) === String(s.id) ? "seleccionado" : ""}`}
+                onClick={() => setIdServicio(s.id)}
+              >
+                <span className="servicio-icono">{ICONOS[s.nombre] || "🗂️"}</span>
+                <span className="servicio-nombre">{s.nombre}</span>
+                {s.descripcion && <span className="servicio-descripcion">{s.descripcion}</span>}
+              </button>
             ))}
-          </select>
-          <button className="boton-principal" onClick={solicitarTurno} disabled={cargando}>
+          </div>
+          <button className="boton-principal" onClick={solicitarTurno} disabled={cargando || !idServicio}>
             {cargando ? "Generando turno..." : "Generar turno"}
           </button>
         </>
@@ -62,10 +77,11 @@ export default function VistaUsuario() {
           <p><strong>Servicio:</strong> {turno.servicio}</p>
           <p><strong>Turno asignado:</strong> {turno.codigo}</p>
           <p className="destacado">
-                        Tiempo estimado de espera: {turno.tiempo_estimado} minutos
+            Tiempo estimado de espera: {turno.tiempo_estimado} minutos
           </p>
           <p><strong>Turnos por delante:</strong> {turno.turnos_delante}</p>
-          <p><strong>Estado:</strong> {turno.estado === "en_espera" ? "En espera" : turno.estado}</p>          <button className="boton-secundario" onClick={() => setTurno(null)}>
+          <p><strong>Estado:</strong> {turno.estado === "en_espera" ? "En espera" : turno.estado}</p>
+          <button className="boton-secundario" onClick={() => setTurno(null)}>
             Solicitar otro turno
           </button>
         </div>
