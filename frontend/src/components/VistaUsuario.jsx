@@ -65,8 +65,7 @@ export default function VistaUsuario() {
             Tiempo estimado de espera (IA): {turno.tiempo_estimado} minutos
           </p>
           <p><strong>Turnos por delante:</strong> {turno.turnos_delante}</p>
-          <p><strong>Estado:</strong> {turno.estado}</p>
-          <button className="boton-secundario" onClick={() => setTurno(null)}>
+          <p><strong>Estado:</strong> {turno.estado === "en_espera" ? "En espera" : turno.estado}</p>          <button className="boton-secundario" onClick={() => setTurno(null)}>
             Solicitar otro turno
           </button>
         </div>
